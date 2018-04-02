@@ -59,7 +59,7 @@ def startAddingSauce(order):
 
 def startToasting(order):
 
-	orderTime = service_stations['SAUCE'].process(order)
+	orderTime = service_stations['TOAST'].process(order)
 	
 	ScheduleRemainingIngredients(order, orderTime)
 
@@ -71,7 +71,7 @@ def ScheduleRemainingIngredients(order, time):
 	#wherever this order appears in the list
 
 
-	if 'TOAST0' in remTypes:
+	if 'TOAST' in remTypes:
 		if 'MEAT' in remTypes:
 			engine.schedule(Event(time, order,   startAddingMeat))
 
