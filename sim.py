@@ -27,7 +27,8 @@ def init_order_arrival_events(n):
         (right now takes in just a parameter n, number of orders, but can take in distributions in the future) """ 
     order_event_list = []
     for i in range(n):
-        new_event = Event(random.randint(0, LAST_ORDER_TIME), Order(),   ScheduleRemainingIngredients) 
+        time = random.randint(0, LAST_ORDER_TIME)
+        new_event = Event(time, {'order' : Order(), 'time' : time}, ScheduleRemainingIngredients) 
         order_event_list.append(new_event)
 
     return order_event_list
@@ -39,34 +40,36 @@ def startAddingMeat(order):
 
     orderTime = service_stations['MEAT'].process(order)
     
-    ScheduleRemainingIngredients(order, orderTime)
+    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 def startAddingCheese(order):
 
     orderTime = service_stations['CHEESE'].process(order)
     
-    ScheduleRemainingIngredients(order, orderTime)
+    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 
 def startAddingVeggie(order):
 
     orderTime = service_stations['VEG'].process(order)  
     
-    ScheduleRemainingIngredients(order, orderTime)
+    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 def startAddingSauce(order):
 
     orderTime = service_stations['SAUCE'].process(order)
     
-    ScheduleRemainingIngredients(order, orderTime)
+    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 def startToasting(order):
     orderTime = service_stations['TOAST'].process(order)
-    ScheduleRemainingIngredients(order, orderTime)
+    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 
 
-def ScheduleRemainingIngredients(order, time):
+def ScheduleRemainingIngredients(data):
+    order = data['order']
+    time = data['time']
     remTypes = order.get_remaining_types()
     #TODO: this needs to update the ts to time 
     #wherever this order appears in the list
@@ -86,13 +89,11 @@ def ScheduleRemainingIngredients(order, time):
         if 'MEAT' in remTypes:
             engine.schedule(Event(time, order,   startAddingMeat))
 
-
         if 'CHEESE' in remTypes:
             engine.schedule(Event(time, order,   startAddingCheese))
 
-        if 'VEGGIE' in remTypes:
+        if 'VEG' in remTypes:
             engine.schedule(Event(time, order,   startAddingVeggie))
-
 
         if 'SAUCE' in remTypes:
             engine.schedule(Event(time, order,   startAddingSauce))
