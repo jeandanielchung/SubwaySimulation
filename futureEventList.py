@@ -1,93 +1,36 @@
+from ingredients import ingredients_dict, types
 class FutureEventList():
     def __init__(self):
-        self.MeatEvents = []
-        self.VegEvents = []
-        self.CheeseEvents = []
-        self.SauceEvents = []
-        self.ToastEvents = []
-        self.ArrivalEvents = []
+
+        self.EventLists = {type: [] for type in types}
+        print self.EventLists
 
 
 
-    def pop(self):
-        min  = MeatEvents[0].ts
-        eventList = 'MEAT'
+    def len(self):
+        for type in types:
+            if(len(EventLists[type]) != 0):
+                return 1
 
-        if(ArrivalEvents[0].ts < min):
-            eventList = 'ARRIVAL'
-            min = ArrivalEvents[0].ts
-        if(VegEvents[0].ts < min):
-            eventList = 'VEG'
-            min = VegEvents[0].ts
-        if(CheeseEvents[0].ts < min):
-            eventList = 'CHEESE'
-            min = CheeseEvents[0].ts
-        if(SauceEvents[0].ts < min):
-            eventList = 'SAUCE'
-            min = SauceEvents[0].ts
-        if(ToastEvents[0].ts < min):
-            eventList = 'TOAST'
-            min = ToastEvents[0].ts
-        
-        if eventList == 'MEAT':
-            return MeatEvents.pop(0)
-        if eventList == 'ARRIVAL':
-            return ArrivalEvents.pop(0)
-        elif eventList == 'VEG':
-             return VegEvents.pop(0)
-        elif eventList == 'CHEESE':
-             return CheeseEvents.pop(0)
-        elif eventList == 'SAUCE':
-             return SauceEvents.pop(0)
-        elif eventList == 'TOAST':
-             return ToastEvents.pop(0)
+        return 0
+
+    def pop(self, i):
+        min = sys.intmax
+        typePop = 'NULL'
+        for type in types:
+            if(len(EventLists[type]) != 0 and EventLists[type][0].ts < min):
+                typePop = type
+                min = EventLists[type][0].ts
+
+        return EventLists[typePop].pop(0)
 
 
-    def schedule_meat(self, event): #function to schedule event into priority queue (future event list)
+    def schedule(self, event,type): #function to schedule event into priority queue (future event list)
         i =0
-        while i < len(self.MeatEvents):
-            if self.MeatEvents[i].ts > event.ts:
+        while i < len(self.EventLists[type]):
+            if self.EventLists[type][i].ts > event.ts:
                 break
             i += 1
-        self.MeatEvents.insert(i, event)
-
-    def schedule_veg(self, event): #function to schedule event into priority queue (future event list)
-        i =0
-        while i < len(self.VegEvents):
-            if self.VegEvents[i].ts > event.ts:
-                break
-            i += 1
-        self.VegEvents.insert(i, event)    
-
-    def schedule_cheese(self, event): #function to schedule event into priority queue (future event list)
-        i =0
-        while i < len(self.CheeseEvents):
-            if self.CheeseEvents[i].ts > event.ts:
-                break
-            i += 1
-        self.CheeseEvents.insert(i, event)
-
-    def schedule_sauce(self, event): #function to schedule event into priority queue (future event list)
-        i =0
-        while i < len(self.ArrivalEvents):
-            if self.ArrivalEvents[i].ts > event.ts:
-                break
-            i += 1
-        self.ArrivalEvents.insert(i, event)
+        self.EventLists[type].insert(i, event)
 
 
-    def schedule_arrival(self, event): #function to schedule event into priority queue (future event list)
-        i =0
-        while i < len(self.SauceEvents):
-            if self.SauceEvents[i].ts > event.ts:
-                break
-            i += 1
-        self.SauceEvents.insert(i, event)
-
-    def schedule_toast(self, event): #function to schedule event into priority queue (future event list)
-        i =0
-        while i < len(self.ToastEvents):
-            if self.ToastEvents[i].ts > event.ts:
-                break
-            i += 1
-        self.ToastEvents.insert(i, event)
