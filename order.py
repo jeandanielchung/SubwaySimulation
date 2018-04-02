@@ -9,10 +9,10 @@ status_dict = {
 }
 
 class Order():
-    def __init__(self, ingredients=None):
+    def __init__(self, ingredients=None, ts):
         self.status = status_dict['WAITING']
         self.ingredients = {}
-        
+        self.ts = ts
         if ingredients:
             for ingredient in ingredients:
                 if ingredient in ingredients_dict:
