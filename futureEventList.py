@@ -1,10 +1,19 @@
 class futureEventList():
+
     def __init__(self):
         self.MeatEvents = []
         self.VegEvents = []
         self.CheeseEvents = []
         self.SauceEvents = []
         self.ToastEvents = []
+        
+        self.TYPE_DICT = {
+            'MEAT':  self.MeatEvents,
+            'VEG': self.VegEvents,
+            'CHEESE': self.CheeseEvents,
+            'SAUCE': self.SauceEvents,
+            'TOAST': self.ToastEvents
+        }
 
 
 
@@ -35,6 +44,24 @@ class futureEventList():
         elif eventList == 'TOAST':
              return ToastEvents.pop(0)
 
+
+    def update(self, order, new_time):
+        """function updating the queue for an ingredient type to delay events"""
+        event_queue = TYPE_DICT[ingredient_type]
+        i = 0
+        while i < len(event_queue) and new_time < event_queue[i].ts:
+            event_queue[i] = new_time
+            i += 1
+
+
+    def schedule(self, event):
+        event_order = event.data
+        for ingredient_type in event_order()
+        event_queue = TYPE_DICT[ingredient_type]
+        i =0
+        while i < len(event_queue) and event.ts <= event_queue[i].ts:
+            i += 1
+        event_queue.insert(i, event)
 
     def schedule_meat(self, event): #function to schedule event into priority queue (future event list)
         i =0
