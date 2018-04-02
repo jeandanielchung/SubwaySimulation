@@ -36,3 +36,6 @@ class Order():
     def set_status(self, status):
         if status in status_dict:
             self.status = status_dict[status]
+
+    def __str__(self):
+        return 'Order with ' + str(self.ingredients) + ' (status: ' + str(self.status) + ')'
