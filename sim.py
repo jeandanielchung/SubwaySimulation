@@ -19,7 +19,7 @@ def init_order_arrival_events(n):
 		(right now takes in just a parameter n, number of orders, but can take in distributions in the future) """ 
 	order_event_list = []
 	for i in range(n):
-		new_event = Event(random.randint(0, LAST_ORDER_TIME), Order(), lambda x: 'Arrival Event') # TODO: replace with arrival event handler
+		new_event = Event(random.randint(0, LAST_ORDER_TIME), Order(), lambda x: ScheduleRemainingIngredients) 
 		order_event_list.append(new_event)
 
 	return order_event_list
@@ -29,33 +29,67 @@ def init_order_arrival_events(n):
 
 def startAddingMeat(order):
 
-	updateOrders(order)
-
-	remIngredients = order.get_remaining_ingredients()
+	orderTime = MeatStation.process(order)
 	
-	if 'MEAT0' in remIngredients:
-		if(meatStation.meat0Amnt == 0):
-			#need to refill meat0
-			meatStation.meat0Amnt =10
-			meatStation.time += 10 #or however much time it takes
-			
+	ScheduleRemainingIngredients(order, orderTime)
 
-		meatStation.meat0Amnt = meatStation.meat0Amnt -1
-		meatStation.time += 10 #or however much time it takes
-		order.process_ingredient('MEAT0')
+def startAddingCheese(order):
 
-	if 'MEAT1' in remIngredients:
-		if(meatStation.meat1Amnt == 0):
-			#need to refill meat1
-			meatStation.meat1Amnt =10
-			meatStation.time += 10 #or however much time it takes
+	orderTime = CheeseStation.process(order)
+	
+	ScheduleRemainingIngredients(order, orderTime)
 
 
-		meatStation.meat1Amnt = meatStation.meat1Amnt -1
-		meatStation.time += 10 #or however much time it takes
-		order.process_ingredient('MEAT1')
+def startAddingVeggie(order):
 
-	ScheduleRemainingIngredients([order, meatStation.time ])
+	orderTime = VeggieStation.process(order)
+	
+	ScheduleRemainingIngredients(order, orderTime)
+
+def startAddingSauce(order):
+
+	orderTime = SauceStation.process(order)
+	
+	ScheduleRemainingIngredients(order, orderTime)
+
+
+
+
+def ScheduleRemainingIngredients(order, time):
+	remIngredients = order.get_remaining_ingredients()
+	#TODO: this needs to update the ts to time 
+	#wherever this order appears in 
+	if 'TOAST0' in remIngredients:
+		if 'MEAT0' in remIngredients or 'MEAT1' in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingMeat))
+
+		if 'CHEESE0' in remIngredients or 'CHEESE1' in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingCheese))
+		elif 'MEAT0' not in remIngredients and 'MEAT1' not in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingSauce))
+
+
+	else:
+		if 'MEAT0' in remIngredients or 'MEAT1' in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingMeat))
+
+
+		if 'CHEESE0' in remIngredients or 'CHEESE1' in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingCheese))
+
+		if 'VEGGIE0' in remIngredients or 'VEGGIE1' in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingVeggie))
+
+
+		if 'SAUCE0' in remIngredients or 'SAUCE1' in remIngredients:
+			engine.schedule(Event(time, order, lambda x: startAddingSauce))
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
