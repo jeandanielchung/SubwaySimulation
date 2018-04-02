@@ -1,16 +1,21 @@
-class futureEventList():
+class FutureEventList():
     def __init__(self):
         self.MeatEvents = []
         self.VegEvents = []
         self.CheeseEvents = []
         self.SauceEvents = []
         self.ToastEvents = []
+        self.ArrivalEvents = []
 
 
 
     def pop(self):
         min  = MeatEvents[0].ts
         eventList = 'MEAT'
+
+        if(ArrivalEvents[0].ts < min):
+            eventList = 'ARRIVAL'
+            min = ArrivalEvents[0].ts
         if(VegEvents[0].ts < min):
             eventList = 'VEG'
             min = VegEvents[0].ts
@@ -26,6 +31,8 @@ class futureEventList():
         
         if eventList == 'MEAT':
             return MeatEvents.pop(0)
+        if eventList == 'ARRIVAL':
+            return ArrivalEvents.pop(0)
         elif eventList == 'VEG':
              return VegEvents.pop(0)
         elif eventList == 'CHEESE':
@@ -61,6 +68,15 @@ class futureEventList():
         self.CheeseEvents.insert(i, event)
 
     def schedule_sauce(self, event): #function to schedule event into priority queue (future event list)
+        i =0
+        while i < len(self.ArrivalEvents):
+            if self.ArrivalEvents[i].ts > event.ts:
+                break
+            i += 1
+        self.ArrivalEvents.insert(i, event)
+
+
+    def schedule_arrival(self, event): #function to schedule event into priority queue (future event list)
         i =0
         while i < len(self.SauceEvents):
             if self.SauceEvents[i].ts > event.ts:
