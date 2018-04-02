@@ -2,6 +2,8 @@ import engine as eng
 import random
 from order import Order
 from event import Event
+from ingredients import ingredients_dict, types
+
 
 engine = None
 NUM_ORDERS = 150
@@ -58,9 +60,7 @@ def startAddingSauce(order):
     ScheduleRemainingIngredients(order, orderTime)
 
 def startToasting(order):
-
     orderTime = service_stations['TOAST'].process(order)
-    
     ScheduleRemainingIngredients(order, orderTime)
 
 
