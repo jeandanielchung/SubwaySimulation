@@ -6,6 +6,7 @@ from event import Event
 NUM_ORDERS = 150
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 
+
 def main():
 	engine = eng.Engine(init_order_arrival_events(NUM_ORDERS))
 	start_time = engine.current_time
@@ -22,6 +23,39 @@ def init_order_arrival_events(n):
 		order_event_list.append(new_event)
 
 	return order_event_list
+
+
+
+
+def startAddingMeat(order):
+
+	updateOrders(order)
+
+	remIngredients = order.get_remaining_ingredients()
+	
+	if 'MEAT0' in remIngredients:
+		if(meatStation.meat0Amnt == 0):
+			#need to refill meat0
+			meatStation.meat0Amnt =10
+			meatStation.time += 10 #or however much time it takes
+			
+
+		meatStation.meat0Amnt = meatStation.meat0Amnt -1
+		meatStation.time += 10 #or however much time it takes
+		order.process_ingredient('MEAT0')
+
+	if 'MEAT1' in remIngredients:
+		if(meatStation.meat1Amnt == 0):
+			#need to refill meat1
+			meatStation.meat1Amnt =10
+			meatStation.time += 10 #or however much time it takes
+
+
+		meatStation.meat1Amnt = meatStation.meat1Amnt -1
+		meatStation.time += 10 #or however much time it takes
+		order.process_ingredient('MEAT1')
+
+	ScheduleRemainingIngredients([order, meatStation.time ])
 
 if __name__ == "__main__":
     main()
