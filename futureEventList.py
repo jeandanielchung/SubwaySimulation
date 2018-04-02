@@ -12,9 +12,9 @@ class FutureEventList():
                 return 1
         return 0
 
-    def update(self, ingredient_type, new_time):
+    def update(self, type, new_time):
         """function updating the queue for an ingredient type to delay events"""
-        event_queue = self.EventLists[ingredient_type]
+        event_queue = self.EventLists[type]
         i = 0
         while i < len(event_queue) and new_time < event_queue[i].ts:
             event_queue[i] = new_time
