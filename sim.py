@@ -24,7 +24,7 @@ def init_order_arrival_events(n):
 		(right now takes in just a parameter n, number of orders, but can take in distributions in the future) """ 
 	order_event_list = []
 	for i in range(n):
-		new_event = Event(random.randint(0, LAST_ORDER_TIME), Order(), lambda x: ScheduleRemainingIngredients) 
+		new_event = Event(random.randint(0, LAST_ORDER_TIME), Order(),   ScheduleRemainingIngredients) 
 		order_event_list.append(new_event)
 
 	return order_event_list
@@ -73,28 +73,28 @@ def ScheduleRemainingIngredients(order, time):
 
 	if 'TOAST0' in remTypes:
 		if 'MEAT' in remTypes:
-			engine.schedule(Event(time, order, lambda x: startAddingMeat))
+			engine.schedule(Event(time, order,   startAddingMeat))
 
 		if 'CHEESE' in remTypes:
-			engine.schedule(Event(time, order, lambda x: startAddingCheese))
+			engine.schedule(Event(time, order,   startAddingCheese))
 		elif if 'MEAT' not in remTypes:
-			engine.schedule(Event(time, order, lambda x: startToasting))
+			engine.schedule(Event(time, order,   startToasting))
 
 
 	else:
 		if 'MEAT' in remTypes:
-			engine.schedule(Event(time, order, lambda x: startAddingMeat))
+			engine.schedule(Event(time, order,   startAddingMeat))
 
 
 		if 'CHEESE' in remTypes:
-			engine.schedule(Event(time, order, lambda x: startAddingCheese))
+			engine.schedule(Event(time, order,   startAddingCheese))
 
 		if 'VEGGIE' in remTypes:
-			engine.schedule(Event(time, order, lambda x: startAddingVeggie))
+			engine.schedule(Event(time, order,   startAddingVeggie))
 
 
 		if 'SAUCE' in remTypes:
-			engine.schedule(Event(time, order, lambda x: startAddingSauce))
+			engine.schedule(Event(time, order,   startAddingSauce))
 
 
 
