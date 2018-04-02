@@ -1,9 +1,10 @@
 
 
 class Station():
-    def __init__(self, type, ingredients, time_to_process=lambda x : 10):
+    def __init__(self, type, ingredients, time_to_process=lambda : 10):
         self.refill_delay = 10
         self.refill_quantity = 15
+        self.time_to_process = time_to_process
         self.type = type
         self.time = 0
         self.ingredients = {}
@@ -21,5 +22,5 @@ class Station():
                 self.ingredients[ingredient] = self.refill_quantity
             self.ingredients[ingredient] -= 1
             order.process_ingredient(ingredient)
-        self.update_time(self.time + delay + time_to_process())
+        self.update_time(self.time + delay + self.time_to_process())
         return self.time
