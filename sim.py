@@ -2,6 +2,7 @@ import engine as eng
 import random
 from order import Order
 from event import Event
+from station import Station
 from ingredients import ingredients_dict, types
 
 
