@@ -3,11 +3,16 @@ import random
 from order import Order
 from event import Event
 
+engine = None
 NUM_ORDERS = 150
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 
 
+service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
+
+
 def main():
+    global engine
 	engine = eng.Engine(init_order_arrival_events(NUM_ORDERS))
 	start_time = engine.current_time
 	engine.run()
@@ -29,26 +34,26 @@ def init_order_arrival_events(n):
 
 def startAddingMeat(order):
 
-	orderTime = MeatStation.process(order)
+	orderTime = service_stations['MEAT'].process(order)
 	
 	ScheduleRemainingIngredients(order, orderTime)
 
 def startAddingCheese(order):
 
-	orderTime = CheeseStation.process(order)
+	orderTime = service_stations['CHEESE'].process(order)
 	
 	ScheduleRemainingIngredients(order, orderTime)
 
 
 def startAddingVeggie(order):
 
-	orderTime = VeggieStation.process(order)
-	
+	orderTime = service_stations['VEG'].process(order)	
+    
 	ScheduleRemainingIngredients(order, orderTime)
 
 def startAddingSauce(order):
 
-	orderTime = SauceStation.process(order)
+	orderTime = service_stations['SAUCE'].process(order)
 	
 	ScheduleRemainingIngredients(order, orderTime)
 
