@@ -40,7 +40,9 @@ def start_adding_ingredient(data):
     ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 
-def ScheduleRemainingIngredients(order, time):
+def ScheduleRemainingIngredients(data):
+    order = data['order']
+    time = data['time']
     
     remTypes = order.get_remaining_types()
     #TODO: this needs to update the ts to time 
