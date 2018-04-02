@@ -59,41 +59,41 @@ def startAddingSauce(order):
 
 def startToasting(order):
 
-	orderTime = ToastStation.process(order)
+	orderTime = service_stations['SAUCE'].process(order)
 	
 	ScheduleRemainingIngredients(order, orderTime)
 
 
 
 def ScheduleRemainingIngredients(order, time):
-	remIngredients = order.get_remaining_ingredients()
+	remTypes = order.get_remaining_types()
 	#TODO: this needs to update the ts to time 
 	#wherever this order appears in the list
 
 
-	if 'TOAST0' in remIngredients:
-		if 'MEAT0' in remIngredients or 'MEAT1' in remIngredients:
+	if 'TOAST0' in remTypes:
+		if 'MEAT' in remTypes:
 			engine.schedule(Event(time, order, lambda x: startAddingMeat))
 
-		if 'CHEESE0' in remIngredients or 'CHEESE1' in remIngredients:
+		if 'CHEESE' in remTypes:
 			engine.schedule(Event(time, order, lambda x: startAddingCheese))
-		elif 'MEAT0' not in remIngredients and 'MEAT1' not in remIngredients:
+		elif if 'MEAT' not in remTypes:
 			engine.schedule(Event(time, order, lambda x: startToasting))
 
 
 	else:
-		if 'MEAT0' in remIngredients or 'MEAT1' in remIngredients:
+		if 'MEAT' in remTypes:
 			engine.schedule(Event(time, order, lambda x: startAddingMeat))
 
 
-		if 'CHEESE0' in remIngredients or 'CHEESE1' in remIngredients:
+		if 'CHEESE' in remTypes:
 			engine.schedule(Event(time, order, lambda x: startAddingCheese))
 
-		if 'VEGGIE0' in remIngredients or 'VEGGIE1' in remIngredients:
+		if 'VEGGIE' in remTypes:
 			engine.schedule(Event(time, order, lambda x: startAddingVeggie))
 
 
-		if 'SAUCE0' in remIngredients or 'SAUCE1' in remIngredients:
+		if 'SAUCE' in remTypes:
 			engine.schedule(Event(time, order, lambda x: startAddingSauce))
 
 
