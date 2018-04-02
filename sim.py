@@ -41,24 +41,25 @@ def start_adding_ingredient(data):
 
 
 def ScheduleRemainingIngredients(order, time):
+    
     remTypes = order.get_remaining_types()
     #TODO: this needs to update the ts to time 
     #wherever this order appears in the list
     if 'TOAST' in remTypes:
         if 'MEAT' in remTypes:
             data['type'] = 'MEAT'
-            engine.schedule(Event(time, data,   start_adding_ingredient))
+            engine.schedule(Event(time, data,   start_adding_ingredient), 'MEAT')
 
         if 'CHEESE' in remTypes:
             data['type'] = 'CHEESE'
-            engine.schedule(Event(time, data,   start_adding_ingredient))
+            engine.schedule(Event(time, data,   start_adding_ingredient), 'CHEESE')
         elif 'MEAT' not in remTypes:
             data['type'] = 'TOAST'
-            engine.schedule(Event(time, data,   start_adding_ingredient))
+            engine.schedule(Event(time, data,   start_adding_ingredient), 'TOAST')
     else:
         for type in remTypes:
             data['type'] = type
-            engine.schedule(Event(time, data,   start_adding_ingredient))
+            engine.schedule(Event(time, data,   start_adding_ingredient), type)
             
 
 

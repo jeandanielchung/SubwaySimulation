@@ -5,7 +5,7 @@ class Engine():
         self.current_time = -1
         self.future_event_list = FutureEventList()
         for e in initial_events:
-            self.future_event_list.schedule_arrival(e)
+            self.future_event_list.schedule(e, 'ARRIVAL')
         self.completed_event_list = []
         
 

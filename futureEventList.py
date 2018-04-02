@@ -1,7 +1,7 @@
 from ingredients import ingredients_dict, types
 class FutureEventList():
     def __init__(self):
-
+        types.append('ARRIVAL')
         self.EventLists = {type: [] for type in types}
         print self.EventLists
 
@@ -9,20 +9,20 @@ class FutureEventList():
 
     def len(self):
         for type in types:
-            if(len(EventLists[type]) != 0):
+            if(len(self.EventLists[type]) != 0):
                 return 1
 
         return 0
 
     def pop(self, i):
-        min = sys.intmax
+        min = float('inf')
         typePop = 'NULL'
         for type in types:
-            if(len(EventLists[type]) != 0 and EventLists[type][0].ts < min):
+            if(len(self.EventLists[type]) != 0 and self.EventLists[type][0].ts < min):
                 typePop = type
-                min = EventLists[type][0].ts
+                min = self.EventLists[type][0].ts
 
-        return EventLists[typePop].pop(0)
+        return self.EventLists[typePop].pop(0)
 
 
     def schedule(self, event,type): #function to schedule event into priority queue (future event list)
