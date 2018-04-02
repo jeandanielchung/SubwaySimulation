@@ -52,13 +52,20 @@ def startAddingSauce(order):
 	
 	ScheduleRemainingIngredients(order, orderTime)
 
+def startToasting(order):
+
+	orderTime = ToastStation.process(order)
+	
+	ScheduleRemainingIngredients(order, orderTime)
 
 
 
 def ScheduleRemainingIngredients(order, time):
 	remIngredients = order.get_remaining_ingredients()
 	#TODO: this needs to update the ts to time 
-	#wherever this order appears in 
+	#wherever this order appears in the list
+
+
 	if 'TOAST0' in remIngredients:
 		if 'MEAT0' in remIngredients or 'MEAT1' in remIngredients:
 			engine.schedule(Event(time, order, lambda x: startAddingMeat))
@@ -66,7 +73,7 @@ def ScheduleRemainingIngredients(order, time):
 		if 'CHEESE0' in remIngredients or 'CHEESE1' in remIngredients:
 			engine.schedule(Event(time, order, lambda x: startAddingCheese))
 		elif 'MEAT0' not in remIngredients and 'MEAT1' not in remIngredients:
-			engine.schedule(Event(time, order, lambda x: startAddingSauce))
+			engine.schedule(Event(time, order, lambda x: startToasting))
 
 
 	else:
