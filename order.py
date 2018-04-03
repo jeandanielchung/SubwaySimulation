@@ -21,21 +21,22 @@ class Order():
         
                 
     def get_remaining_ingredients(self):
+        """ gets the remaining ingredients to be added """
         return [k for k,v in self.ingredients.iteritems() if v > 0]
         
     def get_remaining_types(self):
-        
-
+        """ gets the remaining type of ingredients to be added """
         return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
         
     def get_remaining_ingredients_of_type(self, type):
+        """ gets remaining ingredients given a type """
         return [k for k,v in self.ingredients.iteritems() if ingredients_dict[k]['type'] == type and v > 0]
 
     def process_ingredient(self, ingredient):
+        """ decrements the count of an ingredient """
         if ingredient in self.ingredients:
             self.ingredients[ingredient] -= 1
 
     def __str__(self):
-
         return 'Order ' + str(self.id )+ ' with ' + str(self.ingredients)
 

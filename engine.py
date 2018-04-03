@@ -18,7 +18,8 @@ class Engine():
         self.future_event_list.update_order( order)
         
         
-    def run(self): #function to execute next event in priority queue
+    def run(self): 
+        """function to execute next event in priority queue"""
         while self.future_event_list.len() > 0:
             next = self.future_event_list.pop(0)
             self.completed_event_list.append(next)

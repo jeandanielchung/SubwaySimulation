@@ -22,12 +22,13 @@ class FutureEventList():
             i += 1
 
     def update_order(self, order):
-        """function update the new times of an order in each of the queues that it appears in"""
+        """function to update the new times of an order in each of the queues that it appears in"""
         for type in order.get_remaining_types():
             event_queue = self.EventLists[type]
             self.EventLists[type] = list(filter(lambda x: x.data['order'] != order, event_queue))
 
     def pop(self, i):
+        """ pops the next event in the queue """
         min = float('inf')
         typePop = 'NULL'
         if len(self.EventLists['ARRIVAL']) != 0:
@@ -43,7 +44,8 @@ class FutureEventList():
 
         return self.EventLists[typePop].pop(0)
 
-    def schedule(self, event): #function to schedule event into priority queue (future event list)
+    def schedule(self, event): 
+        """ function to schedule event into priority queue (future event list) """
         type = event.data['type']
         i = 0
         while i < len(self.EventLists[type]):

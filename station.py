@@ -1,5 +1,3 @@
-
-
 class Station():
     def __init__(self, type, ingredients, time_to_process=lambda : 10):
         self.refill_delay = 10
@@ -15,6 +13,7 @@ class Station():
         self.time = time
     
     def process(self, order, time):
+        """ processes an order by adding the station's ingredient """
         self.update_time(time)
         delay = 0
         for ingredient in order.get_remaining_ingredients_of_type(self.type):
