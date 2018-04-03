@@ -28,7 +28,7 @@ def init_order_arrival_events(n):
     order_event_list = []
     for i in range(n):
         time = random.randint(0, LAST_ORDER_TIME)
-        new_event = Event(time, {'order' : Order(time), 'time' : time},   schedule_remaining_ingredients) 
+        new_event = Event(time, {'order' : Order(time), 'time' : time, 'type' : 'ARRIVAL'},   schedule_remaining_ingredients) 
         order_event_list.append(new_event)
 
     return order_event_list
@@ -51,18 +51,18 @@ def schedule_remaining_ingredients(data):
     if 'TOAST' in remTypes:
         if 'MEAT' in remTypes:
             data['type'] = 'MEAT'
-            engine.schedule(Event(time, data,   start_adding_ingredient), 'MEAT')
+            engine.schedule(Event(time, data,   start_adding_ingredient))
 
         if 'CHEESE' in remTypes:
             data['type'] = 'CHEESE'
-            engine.schedule(Event(time, data,   start_adding_ingredient), 'CHEESE')
+            engine.schedule(Event(time, data,   start_adding_ingredient))
         elif 'MEAT' not in remTypes:
             data['type'] = 'TOAST'
-            engine.schedule(Event(time, data,   start_adding_ingredient), 'TOAST')
+            engine.schedule(Event(time, data,   start_adding_ingredient))
     else:
         for type in remTypes:
             data['type'] = type
-            engine.schedule(Event(time, data,   start_adding_ingredient), type)
+            engine.schedule(Event(time, data,   start_adding_ingredient))
             
 
 
