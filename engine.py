@@ -15,7 +15,7 @@ class Engine():
         self.future_event_list.update( type, new_time)
 
     def update_order(self, order):
-        self.future_event_list.update_order( order):
+        self.future_event_list.update_order( order)
         
         
     def run(self): #function to execute next event in priority queue
