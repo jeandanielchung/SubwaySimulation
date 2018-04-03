@@ -21,15 +21,11 @@ class FutureEventList():
             event_queue[i] = new_time
             i += 1
 
-    def update_order(self, order, new_time):
+    def update_order(self, order):
         """function update the new times of an order in each of the queues that it appears in"""
         for type in order.get_remaining_types():
             event_queue = self.EventLists[type]
-            event_queue.remove(order)
-            i = 0
-            while i < len(event_queue) and new_time < event_queue[i].ts:
-                i += 1
-            event_queue.insert(Event(new_time, order, schedule_remaining_ingredients))
+            self.EventLists[type] = list(filter(lambda x: x['data']['order'] != order, event_queue))
 
     def pop(self, i):
         min = float('inf')
