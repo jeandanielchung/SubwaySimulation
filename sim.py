@@ -74,7 +74,8 @@ def schedule_remaining_ingredients(data):
             engine.schedule(Event(time, data,   start_adding_ingredient))
 
     if len(remTypes) == 0:
-        print 'finished sandwich at time: ', time
+        print 'finished sandwich at time: ' + str(time)
+        print 'time to process sandwich: ' + str(time - order.ts)
             
 
 
