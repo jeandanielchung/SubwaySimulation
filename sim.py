@@ -8,7 +8,7 @@ import json
 
 
 engine = None
-NUM_ORDERS = 5
+NUM_ORDERS = 7
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 NUM_PROCESSED = 0
 done = 0
@@ -28,8 +28,10 @@ def main():
 def get_orders_from_file():
 	input_file = open("orders.json")
 	x = json.load(input_file)
-	return [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 'time' : order["ts"], 'type' : 'ARRIVAL'}, 
+	orders = [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 'time' : order["ts"], 'type' : 'ARRIVAL'}, 
 		schedule_remaining_ingredients) for order in x["orders"]]
+	NUM_ORDERS = len(orders)
+	return orders
   
 def init_order_arrival_events(n):
     """ initialises and returns a list of order arrival events to process in the simulation engine
@@ -48,11 +50,11 @@ def start_adding_ingredient(data):
     order = data['order']
     type = data['type']
     time = data['time']
-    print 'start adding ingredient: ', type
+    print 'Order ' + str(order.id) + ': start adding ingredient: ', type
 
     orderTime = service_stations[type].process(order, time)
 
-    print 'finished at time: ', orderTime
+    # print 'finished at time: ', orderTime
 
     engine.update(type, orderTime)
     
@@ -92,8 +94,7 @@ def schedule_remaining_ingredients(data):
 
     if len(remTypes) == 0:
         NUM_PROCESSED = NUM_PROCESSED + 1
-        print 'finished sandwich at time: ' + str(time)
-        print 'time to process sandwich: ' + str(time - order.ts)
+        print 'Order ' + str(order.id) + ': finished sandwich at time: ' + str(time) + ' (time to process sandwich: ' + str(time - order.ts) + ')'
             
     if ((NUM_PROCESSED == NUM_ORDERS) and done == 0):
         print '----------------------------'

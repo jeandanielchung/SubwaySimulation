@@ -34,8 +34,8 @@ class FutureEventList():
             if(len(self.EventLists[type]) != 0 and self.EventLists[type][0].ts < min):
                 typePop = type
                 min = self.EventLists[type][0].ts
-
-        print 'Event type: ', typePop, 'At time: ', min
+        order = self.EventLists[typePop][0].data['order']
+        print 'Order ' + str(order.id) + ': Event type: ', typePop, 'At time: ', min
 
 
         return self.EventLists[typePop].pop(0)
