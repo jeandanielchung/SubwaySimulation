@@ -22,10 +22,13 @@ class Order():
         
     def get_remaining_types(self):
         return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
+        
+    def get_remaining_ingredients_of_type(self, type):
+        return [k for k,v in self.ingredients.iteritems() if ingredients_dict[k]['type'] == type and v > 0]
 
     def process_ingredient(self, ingredient):
         if ingredient in self.ingredients:
             self.ingredients[ingredient] -= 1
 
     def __str__(self):
-        return 'Order with ' + str(self.ingredients) + ' (status: ' + str(self.status) + ')'
+        return 'Order with ' + str(self.ingredients)
