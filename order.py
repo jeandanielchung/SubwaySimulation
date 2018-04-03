@@ -3,11 +3,8 @@ from ingredients import ingredients_dict
 
 
 class Order():
-
-
     def __init__(self, ts, ingredients=None):
 
-        self.status = status_dict['WAITING']
         self.ingredients = {}
         self.ts = ts
         if ingredients:
@@ -26,17 +23,9 @@ class Order():
     def get_remaining_types(self):
         return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
 
-
     def process_ingredient(self, ingredient):
         if ingredient in self.ingredients:
             self.ingredients[ingredient] -= 1
-
-    def is_in_progress(self):
-        return self.status == status_dict['IN PROGRESS']
-        
-    def set_status(self, status):
-        if status in status_dict:
-            self.status = status_dict[status]
 
     def __str__(self):
         return 'Order with ' + str(self.ingredients) + ' (status: ' + str(self.status) + ')'
