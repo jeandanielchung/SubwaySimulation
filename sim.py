@@ -39,7 +39,7 @@ def start_adding_ingredient(data):
     order = data['order']
     type = data['type']
     time = data['time']
-    print 'start adding ingredient: ', type
+    print 'start adding ingredient for ', order.id, ': ', type
 
     orderTime = service_stations[type].process(order, time)
 
@@ -75,7 +75,7 @@ def schedule_remaining_ingredients(data):
             engine.schedule(Event(time, data,   start_adding_ingredient))
 
     if len(remTypes) == 0:
-        print 'finished sandwich at time: ' + str(time)
+        print 'finished sandwich ' + str(order.id)  + ' at time: ' + str(time)
         print 'time to process sandwich: ' + str(time - order.ts)
             
 

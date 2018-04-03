@@ -2,8 +2,11 @@ import random
 from ingredients import ingredients_dict
 
 class Order():
-    def __init__(self, ts, ingredients=None):
+    order_id = 0
 
+    def __init__(self, ts, ingredients=None):
+        self.id = Order.order_id
+        Order.order_id += 1
         self.ingredients = {}
         self.ts = ts
         if ingredients:
@@ -31,4 +34,4 @@ class Order():
             self.ingredients[ingredient] -= 1
 
     def __str__(self):
-        return 'Order with ' + str(self.ingredients)
+        return 'Order ' + self.id + ' with ' + str(self.ingredients)
