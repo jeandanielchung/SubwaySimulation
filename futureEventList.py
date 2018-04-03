@@ -3,7 +3,6 @@ class FutureEventList():
     def __init__(self):
         types.append('ARRIVAL')
         self.EventLists = {type: [] for type in types}
-        print self.EventLists
 
 
 
@@ -27,7 +26,6 @@ class FutureEventList():
         return self.EventLists[typePop].pop(0)
 
 
-    def schedule(self, event,type): #function to schedule event into priority queue (future event list)
         i =0
         while i < len(self.EventLists[type]):
             if self.EventLists[type][i].ts > event.ts:

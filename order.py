@@ -9,7 +9,11 @@ status_dict = {
 }
 
 class Order():
+<<<<<<< HEAD
     def __init__(self, ingredients, ts):
+=======
+    def __init__(self, ts, ingredients=None):
+>>>>>>> befc705c8053828a82c6adbf00cc0b4808874374
         self.status = status_dict['WAITING']
         self.ingredients = {}
         self.ts = ts
