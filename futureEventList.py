@@ -3,7 +3,7 @@ from sim import schedule_remaining_ingredients
 
 class FutureEventList():
     def __init__(self):
-        types.append('ARRIVAL')
+        types.insert(0,'ARRIVAL')
         self.EventLists = {type: [] for type in types}
 
 
@@ -17,8 +17,8 @@ class FutureEventList():
         """function updating the queue for an ingredient type to delay events"""
         event_queue = self.EventLists[type]
         i = 0
-        while i < len(event_queue) and new_time < event_queue[i].ts:
-            event_queue[i] = new_time
+        while i < len(event_queue) and new_time >= event_queue[i].ts:
+            event_queue[i].ts = new_time
             i += 1
 
     def update_order(self, order):
@@ -42,7 +42,7 @@ class FutureEventList():
 
     def schedule(self, event): #function to schedule event into priority queue (future event list)
         type = event.data['type']
-        i =0
+        i = 0
         while i < len(self.EventLists[type]):
             if self.EventLists[type][i].ts > event.ts:
                 break
