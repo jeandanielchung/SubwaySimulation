@@ -5,10 +5,12 @@ class Engine():
         self.current_time = -1
         self.future_event_list = FutureEventList()
         for e in initial_events:
-            self.future_event_list.schedule(e, 'ARRIVAL')
+            self.future_event_list.schedule(e)
         self.completed_event_list = []
         
-
+    def schedule(self, event):
+        self.future_event_list.schedule(event)
+        
         
     def run(self): #function to execute next event in priority queue
         while self.future_event_list.len() > 0:
