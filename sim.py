@@ -96,8 +96,9 @@ def schedule_remaining_ingredients(data):
             
     if (NUM_PROCESSED == NUM_ORDERS):
         print '----------------------------'
-        print 'Number of orders processed: ' + str(NUM_ORDERS)
+        print 'Number of orders processed: ' + str(NUM_PROCESSED)
         print 'Average time per sandwich ' + str(time / NUM_ORDERS)
+        NUM_PROCESSED = NUM_PROCESSED + 1
 
 if __name__ == "__main__":
     main()
