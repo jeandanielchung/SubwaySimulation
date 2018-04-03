@@ -26,6 +26,8 @@ class FutureEventList():
         return self.EventLists[typePop].pop(0)
 
 
+    def schedule(self, event): #function to schedule event into priority queue (future event list)
+        type = event.data['type']
         i =0
         while i < len(self.EventLists[type]):
             if self.EventLists[type][i].ts > event.ts:
