@@ -7,7 +7,7 @@ from ingredients import ingredients_dict, types
 
 
 engine = None
-NUM_ORDERS = 150
+NUM_ORDERS = 5
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 
 

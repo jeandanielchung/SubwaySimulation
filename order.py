@@ -1,19 +1,11 @@
 import random
 from ingredients import ingredients_dict
 
-
-status_dict = {
-    'WAITING' : 0,
-    'IN PROGRESS' : 1,
-    'COMPLETED' : 2
-}
-
 class Order():
 
 
     def __init__(self, ts, ingredients=None):
 
-        self.status = status_dict['WAITING']
         self.ingredients = {}
         self.ts = ts
         if ingredients:
@@ -22,7 +14,7 @@ class Order():
                     self.ingredients[ingredient] = 1
         else:
             for ingredient in ingredients_dict.keys():
-                if random.random() > ingredients_dict[ingredient]['probability']:
+                if random.random() < ingredients_dict[ingredient]['probability']:
                     self.ingredients[ingredient] = 1
         
                 
@@ -39,12 +31,6 @@ class Order():
         if ingredient in self.ingredients:
             self.ingredients[ingredient] -= 1
 
-    def is_in_progress(self):
-        return self.status == status_dict['IN PROGRESS']
-        
-    def set_status(self, status):
-        if status in status_dict:
-            self.status = status_dict[status]
 
     def __str__(self):
-        return 'Order with ' + str(self.ingredients) + ' (status: ' + str(self.status) + ')'
+        return 'Order with ' + str(self.ingredients)
