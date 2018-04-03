@@ -10,8 +10,7 @@ import json
 engine = None
 NUM_ORDERS = 5
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
-
-
+NUM_PROCESSED = 0
 
 service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
 
@@ -60,6 +59,8 @@ def start_adding_ingredient(data):
 
 
 def schedule_remaining_ingredients(data):
+    global NUM_PROCESSED
+
     order = data['order']
     time = data['time']
     
@@ -84,10 +85,14 @@ def schedule_remaining_ingredients(data):
             engine.schedule(Event(time, data,   start_adding_ingredient))
 
     if len(remTypes) == 0:
+        NUM_PROCESSED = NUM_PROCESSED + 1
         print 'finished sandwich at time: ' + str(time)
         print 'time to process sandwich: ' + str(time - order.ts)
             
-
+    if (NUM_PROCESSED == NUM_ORDERS):
+        print '----------------------------'
+        print 'Number of orders processed: ' + str(NUM_ORDERS)
+        print 'Average time per sandwich ' + str(time / NUM_ORDERS)
 
 if __name__ == "__main__":
     main()
