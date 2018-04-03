@@ -11,6 +11,7 @@ engine = None
 NUM_ORDERS = 5
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 NUM_PROCESSED = 0
+done = 0
 
 service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
 
@@ -62,7 +63,7 @@ def start_adding_ingredient(data):
 
 def schedule_remaining_ingredients(data):
     global NUM_PROCESSED
-
+    global done
     order = data['order']
     time = data['time']
     
@@ -94,11 +95,11 @@ def schedule_remaining_ingredients(data):
         print 'finished sandwich at time: ' + str(time)
         print 'time to process sandwich: ' + str(time - order.ts)
             
-    if (NUM_PROCESSED == NUM_ORDERS):
+    if ((NUM_PROCESSED == NUM_ORDERS) and done == 0):
         print '----------------------------'
         print 'Number of orders processed: ' + str(NUM_PROCESSED)
         print 'Average time per sandwich ' + str(time / NUM_ORDERS)
-        NUM_PROCESSED = NUM_PROCESSED + 1
+        done = 1
 
 if __name__ == "__main__":
     main()
