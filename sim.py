@@ -27,7 +27,8 @@ def init_order_arrival_events(n):
         (right now takes in just a parameter n, number of orders, but can take in distributions in the future) """ 
     order_event_list = []
     for i in range(n):
-        new_event = Event(random.randint(0, LAST_ORDER_TIME), Order(time),   ScheduleRemainingIngredients) 
+        time = random.randint(0, LAST_ORDER_TIME)
+        new_event = Event(time, {'order' : Order(time), 'time' : time},   schedule_remaining_ingredients) 
         order_event_list.append(new_event)
 
     return order_event_list
@@ -37,10 +38,10 @@ def start_adding_ingredient(data):
     order = data['order']
     type = data['type']
     orderTime = service_stations[type].process(order)
-    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
+    schedule_remaining_ingredients({'order' : order, 'time' : orderTime})
 
 
-def ScheduleRemainingIngredients(data):
+def schedule_remaining_ingredients(data):
     order = data['order']
     time = data['time']
     
