@@ -35,9 +35,12 @@ def init_order_arrival_events(n):
 
 
 def start_adding_ingredient(data):
+    print 'start adding ingredient', type
     order = data['order']
     type = data['type']
+    print 'start adding ingredient: ', type
     orderTime = service_stations[type].process(order)
+    print 'finished at time: ', orderTime
     ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
 
 

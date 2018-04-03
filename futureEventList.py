@@ -22,6 +22,8 @@ class FutureEventList():
                 typePop = type
                 min = self.EventLists[type][0].ts
 
+        print 'Event type: ', typePop, 'At time: ', min
+
         return self.EventLists[typePop].pop(0)
 
 
@@ -32,5 +34,6 @@ class FutureEventList():
                 break
             i += 1
         self.EventLists[type].insert(i, event)
+
 
 
