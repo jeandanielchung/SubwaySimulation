@@ -41,6 +41,7 @@ class FutureEventList():
 
         print 'Event type: ', typePop, 'At time: ', min
 
+
         return self.EventLists[typePop].pop(0)
 
     def schedule(self, event): #function to schedule event into priority queue (future event list)
