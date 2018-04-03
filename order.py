@@ -36,4 +36,7 @@ class Order():
             self.ingredients[ingredient] -= 1
 
     def __str__(self):
-        return 'Order ' + str(self.id )+ ' with ' + str(self.ingredients)
+<<<<<<< HEAD
+=======
+        return 'Order ' + str(self.id) + ' with ' + str(self.ingredients)
+>>>>>>> 29e03f1b906f85dda54f08774fa7d82d90b16e90
