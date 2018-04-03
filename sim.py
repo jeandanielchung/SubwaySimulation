@@ -65,6 +65,7 @@ def schedule_remaining_ingredients(data):
     time = data['time']
     
     remTypes = order.get_remaining_types()
+    engine.update_order(order)
 
 
     #TODO: this needs to update the ts to time 
