@@ -21,7 +21,7 @@ class FutureEventList():
             event_queue[i] = new_time
             i += 1
 
-    def update_order(self, order, new_time):
+    def update_order(self, order):
         """function update the new times of an order in each of the queues that it appears in"""
         for type in order.get_remaining_types():
             event_queue = self.EventLists[type]
