@@ -40,12 +40,11 @@ def start_adding_ingredient(data):
     type = data['type']
     print 'start adding ingredient: ', type
     orderTime = service_stations[type].process(order)
-<<<<<<< HEAD
+
     print 'finished at time: ', orderTime
-    ScheduleRemainingIngredients({'order' : order, 'time' : orderTime})
-=======
+
     schedule_remaining_ingredients({'order' : order, 'time' : orderTime})
->>>>>>> befc705c8053828a82c6adbf00cc0b4808874374
+
 
 
 def schedule_remaining_ingredients(data):
