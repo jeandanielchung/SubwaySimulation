@@ -26,7 +26,9 @@ class Order():
         
     def get_remaining_types(self):
         """ gets the remaining type of ingredients to be added """
-        return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
+
+        return list(set([ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]))
+
         
     def get_remaining_ingredients_of_type(self, type):
         """ gets remaining ingredients given a type """

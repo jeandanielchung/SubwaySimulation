@@ -26,13 +26,13 @@ def main():
     total_time = end_time - start_time
 
 def get_orders_from_file():
-	"""function that gets the initial orders from a json file"""
-	input_file = open("orders.json")
-	x = json.load(input_file)
-	orders = [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 'time' : order["ts"], 'type' : 'ARRIVAL'}, 
-		schedule_remaining_ingredients) for order in x["orders"]]
-	NUM_ORDERS = len(orders)
-	return orders
+    """function that gets the initial orders from a json file"""
+    input_file = open("orders.json")
+    x = json.load(input_file)
+    orders = [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 'time' : order["ts"], 'type' : 'ARRIVAL'}, 
+        schedule_remaining_ingredients) for order in x["orders"]]
+    NUM_ORDERS = len(orders)
+    return orders
   
 def init_order_arrival_events(n):
     """ initialises and returns a list of order arrival events to process in the simulation engine
@@ -47,7 +47,7 @@ def init_order_arrival_events(n):
 
 
 def start_adding_ingredient(data):
-	""" starts adding a specified ingredient to an order and updates the FEL"""
+    """ starts adding a specified ingredient to an order and updates the FEL"""
     order = data['order']
     type = data['type']
     time = data['time']
@@ -65,7 +65,7 @@ def start_adding_ingredient(data):
 
 
 def schedule_remaining_ingredients(data):
-	""" updates the FEL and schedules the remaining ingredients to be added for an order"""
+    """ updates the FEL and schedules the remaining ingredients to be added for an order"""
     global NUM_PROCESSED
     global done
     order = data['order']
