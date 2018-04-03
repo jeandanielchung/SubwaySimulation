@@ -35,7 +35,7 @@ def init_order_arrival_events(n):
 
 
 def start_adding_ingredient(data):
-    print 'start adding ingredient', type
+
     order = data['order']
     type = data['type']
     print 'start adding ingredient: ', type
