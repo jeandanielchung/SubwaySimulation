@@ -38,9 +38,10 @@ def start_adding_ingredient(data):
 
     order = data['order']
     type = data['type']
+    time = data['time']
     print 'start adding ingredient: ', type
 
-    orderTime = service_stations[type].process(order)
+    orderTime = service_stations[type].process(order, time)
 
     print 'finished at time: ', orderTime
     

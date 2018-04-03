@@ -14,7 +14,8 @@ class Station():
     def update_time(self, time):
         self.time = time
     
-    def process(self, order):
+    def process(self, order, time):
+        self.update_time(time)
         delay = 0
         for ingredient in order.get_remaining_ingredients_of_type(self.type):
             if self.ingredients[ingredient] <= 0:
