@@ -14,7 +14,8 @@ class Order():
                     self.ingredients[ingredient] = 1
         else:
             for ingredient in ingredients_dict.keys():
-                if random.random() < ingredients_dict[ingredient]['probability']:
+                if random.random() <= ingredients_dict[ingredient]['probability']:
+
                     self.ingredients[ingredient] = 1
         
                 
@@ -22,10 +23,8 @@ class Order():
         return [k for k,v in self.ingredients.iteritems() if v > 0]
         
     def get_remaining_types(self):
-        return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems()]
-        
-    def get_remaining_ingredients_of_type(self, type):
-        return [k for k,v in self.ingredients.iteritems() if ingredients_dict[k]['type'] == type]
+        return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
+
 
     def process_ingredient(self, ingredient):
         if ingredient in self.ingredients:

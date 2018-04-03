@@ -1,4 +1,6 @@
 from ingredients import ingredients_dict, types
+from sim import schedule_remaining_ingredients
+
 class FutureEventList():
     def __init__(self):
         types.append('ARRIVAL')
@@ -18,6 +20,16 @@ class FutureEventList():
         while i < len(event_queue) and new_time < event_queue[i].ts:
             event_queue[i] = new_time
             i += 1
+
+    def update_order(self, order, new_time):
+        """function update the new times of an order in each of the queues that it appears in"""
+        for type in order.get_remaining_types():
+            event_queue = self.EventLists[type]
+            event_queue.remove(order)
+            i = 0
+            while i < len(event_queue) and new_time < event_queue[i].ts:
+                i += 1
+            event_queue.insert(Event(new_time, order, schedule_remaining_ingredients))
 
     def pop(self, i):
         min = float('inf')
