@@ -25,7 +25,7 @@ class FutureEventList():
         """function to update the new times of an order in each of the queues that it appears in"""
         for type in order.get_remaining_types():
             event_queue = self.EventLists[type]
-            self.EventLists[type] = list(filter(lambda x: x.data['order'] != order, event_queue))
+            self.EventLists[type] = list(filter(lambda x: x.data['order'].id != order.id, event_queue))
 
     def pop(self, i):
         """ pops the next event in the queue """

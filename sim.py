@@ -95,11 +95,11 @@ def schedule_remaining_ingredients(data):
         NUM_PROCESSED = NUM_PROCESSED + 1
         print 'Order ' + str(order.id) + ': finished sandwich at time: ' + str(time) + ' (time to process sandwich: ' + str(time - order.ts) + ')'
             
-    if ((NUM_PROCESSED == NUM_ORDERS) and done == 0):
-        print '----------------------------'
-        print 'Number of orders processed: ' + str(NUM_PROCESSED)
-        print 'Average time per sandwich ' + str(time / NUM_ORDERS)
-        done = 1
+    # if ((NUM_PROCESSED == NUM_ORDERS) and done == 0):
+    #     print '----------------------------'
+    #     print 'Number of orders processed: ' + str(NUM_PROCESSED)
+    #     print 'Average time per sandwich ' + str(time / NUM_ORDERS)
+    #     done = 1
 
 if __name__ == "__main__":
     main()
