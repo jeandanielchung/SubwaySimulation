@@ -1,4 +1,5 @@
 # SubwaySimulation
+
 Modeling an Alternative Approach To Subway’s Service System
 Ryan Trad, Aditya Malladi, Daniel Chung, Julia Redston
 
@@ -8,11 +9,13 @@ Event.py
 futureEventList.py
 Ingredients.py
 Order.py
-Sim.py
+sim.py
 Station.py
 
 
-To compile and run the program:
+You need to have python 2.7 installed
 
+To begin the simulation, execute the following
 python sim.py
+
 
