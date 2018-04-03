@@ -24,9 +24,7 @@ class Order():
         return [k for k,v in self.ingredients.iteritems() if v > 0]
         
     def get_remaining_types(self):
-        
-
-        return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
+        return list(set([ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]))
         
     def get_remaining_ingredients_of_type(self, type):
         return [k for k,v in self.ingredients.iteritems() if ingredients_dict[k]['type'] == type and v > 0]
