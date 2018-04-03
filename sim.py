@@ -4,10 +4,11 @@ from order import Order
 from event import Event
 from station import Station
 from ingredients import ingredients_dict, types
+import json
 
 
 engine = None
-NUM_ORDERS = 1
+NUM_ORDERS = 5
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 
 
@@ -16,11 +17,18 @@ service_stations = {type : Station(type, [ingredient for ingredient,v in ingredi
 
 def main():
     global engine
-    engine = eng.Engine(init_order_arrival_events(NUM_ORDERS))
+    # engine = eng.Engine(init_order_arrival_events(NUM_ORDERS))
+    engine = eng.Engine(get_orders_from_file())
     start_time = engine.current_time
     engine.run()
     end_time = engine.current_time
     total_time = end_time - start_time
+
+def get_orders_from_file():
+	input_file = open("orders.json")
+	x = json.load(input_file)
+	return [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 'time' : order["ts"], 'type' : 'ARRIVAL'}, 
+		schedule_remaining_ingredients) for order in x["orders"]]
   
 def init_order_arrival_events(n):
     """ initialises and returns a list of order arrival events to process in the simulation engine
