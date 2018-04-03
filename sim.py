@@ -11,6 +11,7 @@ NUM_ORDERS = 1
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 
 
+
 service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
 
 
@@ -39,7 +40,7 @@ def start_adding_ingredient(data):
     order = data['order']
     type = data['type']
     time = data['time']
-    print 'start adding ingredient for ', order.id, ': ', type
+    print 'start adding ingredient: ', type
 
     orderTime = service_stations[type].process(order, time)
 
@@ -75,7 +76,7 @@ def schedule_remaining_ingredients(data):
             engine.schedule(Event(time, data,   start_adding_ingredient))
 
     if len(remTypes) == 0:
-        print 'finished sandwich ' + str(order.id)  + ' at time: ' + str(time)
+        print 'finished sandwich at time: ' + str(time)
         print 'time to process sandwich: ' + str(time - order.ts)
             
 
