@@ -44,6 +44,8 @@ def start_adding_ingredient(data):
     orderTime = service_stations[type].process(order, time)
 
     print 'finished at time: ', orderTime
+
+    engine.update(type, orderTime)
     
 
     schedule_remaining_ingredients({'order' : order, 'time' : orderTime})
@@ -55,6 +57,7 @@ def schedule_remaining_ingredients(data):
     time = data['time']
     
     remTypes = order.get_remaining_types()
+
 
     #TODO: this needs to update the ts to time 
     #wherever this order appears in the list
@@ -71,6 +74,7 @@ def schedule_remaining_ingredients(data):
             engine.schedule(Event(time, data,   start_adding_ingredient))
     else:
         for type in remTypes:
+            
             data['type'] = type
             engine.schedule(Event(time, data,   start_adding_ingredient))
 

@@ -24,6 +24,8 @@ class Order():
         return [k for k,v in self.ingredients.iteritems() if v > 0]
         
     def get_remaining_types(self):
+        
+
         return [ingredients_dict[k]['type'] for k,v in self.ingredients.iteritems() if v > 0]
         
     def get_remaining_ingredients_of_type(self, type):
@@ -34,4 +36,4 @@ class Order():
             self.ingredients[ingredient] -= 1
 
     def __str__(self):
-        return 'Order ' + self.id + ' with ' + str(self.ingredients)
+        return 'Order ' + str(self.id )+ ' with ' + str(self.ingredients)
