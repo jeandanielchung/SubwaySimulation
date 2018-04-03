@@ -30,6 +30,9 @@ class FutureEventList():
     def pop(self, i):
         min = float('inf')
         typePop = 'NULL'
+        if len(self.EventLists['ARRIVAL']) != 0:
+            print 'Event type: ARRIVAL', 'At time: ', self.EventLists['ARRIVAL'][0].ts
+            return self.EventLists['ARRIVAL'].pop(0)
         for type in types:
             if(len(self.EventLists[type]) != 0 and self.EventLists[type][0].ts < min):
                 typePop = type
