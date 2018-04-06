@@ -52,18 +52,10 @@ class FutureEventList():
 
         return self.EventLists[typePop].pop(0)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    def schedule(self, event): #function to schedule event into priority queue (future event list)
 
-=======
     def schedule(self, event): 
         """ function to schedule event into priority queue (future event list) """
->>>>>>> 1d0f4a4381af3a569ab3b9839609574d2985311a
-=======
-    def schedule(self, event): 
-        """ function to schedule event into priority queue (future event list) """
->>>>>>> 1d0f4a4381af3a569ab3b9839609574d2985311a
+
         type = event.data['type']
         event1 = copy.deepcopy(event)
         i = 0
