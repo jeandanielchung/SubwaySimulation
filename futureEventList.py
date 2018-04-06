@@ -47,6 +47,7 @@ class FutureEventList():
                 typePop = type
                 min = self.EventLists[type][0].ts
         order = self.EventLists[typePop][0].data['order']
+        self.EventLists[typePop][0].data['event_time'] = min
         print 'Order ' + str(order.id) + ': Event type: ', typePop, 'At time: ', min
 
 

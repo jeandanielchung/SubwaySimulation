@@ -8,7 +8,7 @@ import json
 
 
 engine = None
-NUM_ORDERS = 4
+NUM_ORDERS = 10
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 NUM_PROCESSED = 0
 done = 0
@@ -27,9 +27,11 @@ def main():
 
 def get_orders_from_file():
     """function that gets the initial orders from a json file"""
-    input_file = open("orders.json")
+    global NUM_ORDERS
+    input_file = open("test_orders.json")
     x = json.load(input_file)
-    orders = [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 'time' : order["ts"], 'type' : 'ARRIVAL'}, 
+    orders = [Event(order["ts"], {'order' : Order(order["ts"], order["ingredients"]), 
+        'arrival_time' : order["ts"], 'event_time' : order["ts"], 'type' : 'ARRIVAL'}, 
         schedule_remaining_ingredients) for order in x["orders"]]
     NUM_ORDERS = len(orders)
     return orders
@@ -40,7 +42,7 @@ def init_order_arrival_events(n):
     order_event_list = []
     for i in range(n):
         time = random.randint(0, LAST_ORDER_TIME)
-        new_event = Event(time, {'order' : Order(time), 'time' : time, 'type' : 'ARRIVAL'},   schedule_remaining_ingredients) 
+        new_event = Event(time, {'order' : Order(time), 'arrival_time' : time, 'event_time' : time, 'type' : 'ARRIVAL'},   schedule_remaining_ingredients) 
         order_event_list.append(new_event)
 
     return order_event_list
@@ -50,8 +52,8 @@ def start_adding_ingredient(data):
     """ starts adding a specified ingredient to an order and updates the FEL"""
     order = data['order']
     type = data['type']
-    time = data['time']
-    print 'Order ' + str(order.id) + ': start adding ingredient: ', type
+    time = data['event_time']
+    print 'Order ' + str(order.id) + ': start adding ingredient: ', type, ' at ', time
 
     orderTime = service_stations[type].process(order, time)
 
@@ -60,7 +62,7 @@ def start_adding_ingredient(data):
     engine.update(type, orderTime)
     
 
-    schedule_remaining_ingredients({'order' : order, 'time' : orderTime})
+    schedule_remaining_ingredients(data)
 
 
 
@@ -69,7 +71,7 @@ def schedule_remaining_ingredients(data):
     global NUM_PROCESSED
     global done
     order = data['order']
-    time = data['time']
+    time = data['event_time']
     
     remTypes = order.get_remaining_types()
     engine.update_order(order)
