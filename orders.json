@@ -14,21 +14,5 @@
 	{
 		"ts": 62,
 		"ingredients": ["VEG0", "VEG1", "MEAT1", "CHEESE0", "SAUCE1"]
-	},
-	{
-		"ts": 100,
-		"ingredients": ["TOAST0"]
-	},
-	{
-		"ts": 82,
-		"ingredients": ["TOAST0", "VEG0", "SAUCE0"]
-	},
-	{
-		"ts": 301,
-		"ingredients": ["VEG0", "VEG1", "MEAT2"]
-	},
-	{
-		"ts": 224,
-		"ingredients": ["TOAST0", "CHEESE1"]
 	}]
 }

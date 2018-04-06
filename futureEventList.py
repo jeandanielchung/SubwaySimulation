@@ -1,5 +1,6 @@
 from ingredients import ingredients_dict, types
 from sim import schedule_remaining_ingredients
+import copy
 
 class FutureEventList():
     def __init__(self):
@@ -22,14 +23,22 @@ class FutureEventList():
             i += 1
 
     def update_order(self, order):
-        """function update the new times of an order in each of the queues that it appears in"""
+        """function to update the new times of an order in each of the queues that it appears in"""
         for type in order.get_remaining_types():
             event_queue = self.EventLists[type]
-            self.EventLists[type] = list(filter(lambda x: x.data['order'] != order, event_queue))
+            self.EventLists[type] = list(filter(lambda x: x.data['order'].id != order.id, event_queue))
 
     def pop(self, i):
+        """ pops the next event in the queue """
         min = float('inf')
         typePop = 'NULL'
+        for type in types:
+            print type
+            for event in self.EventLists[type]:
+                print event.data['order'], event.data['type'],  event.ts
+
+            print
+
         if len(self.EventLists['ARRIVAL']) != 0:
             print 'Event type: ARRIVAL', 'At time: ', self.EventLists['ARRIVAL'][0].ts
             return self.EventLists['ARRIVAL'].pop(0)
@@ -43,14 +52,23 @@ class FutureEventList():
 
         return self.EventLists[typePop].pop(0)
 
+<<<<<<< HEAD
     def schedule(self, event): #function to schedule event into priority queue (future event list)
+
+=======
+    def schedule(self, event): 
+        """ function to schedule event into priority queue (future event list) """
+>>>>>>> 1d0f4a4381af3a569ab3b9839609574d2985311a
         type = event.data['type']
+        event1 = copy.deepcopy(event)
         i = 0
         while i < len(self.EventLists[type]):
-            if self.EventLists[type][i].ts > event.ts:
+            if self.EventLists[type][i].ts > event1.ts:
                 break
             i += 1
-        self.EventLists[type].insert(i, event)
+        self.EventLists[type].insert(i, event1)
+
+
 
 
 
