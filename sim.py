@@ -8,7 +8,7 @@ import json
 
 
 engine = None
-NUM_ORDERS = 7
+NUM_ORDERS = 4
 LAST_ORDER_TIME = 360 # time of last order (in minutes)
 NUM_PROCESSED = 0
 done = 0
