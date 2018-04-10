@@ -4,7 +4,7 @@ types = ['TOAST', 'MEAT', 'CHEESE', 'VEG', 'SAUCE']
 ingredients_dict = {
     'TOAST0' : {
         'type' : 'TOAST',
-        'probability' : 0.5
+        'probability' : 0.1
     },
     'MEAT0' : {
         'type' : 'MEAT',

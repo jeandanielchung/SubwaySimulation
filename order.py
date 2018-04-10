@@ -11,6 +11,8 @@ class Order():
         self.ingredients = {}
         self.start_time = start_time
         self.completed_ts = sys.maxint
+        self.wait_time = 0
+        self.last_time_waiting = 0
         if ingredients:
             for ingredient in ingredients:
                 if ingredient in ingredients_dict:
@@ -40,7 +42,13 @@ class Order():
         """ decrements the count of an ingredient """
         if ingredient in self.ingredients:
             self.ingredients[ingredient] -= 1
-
+            
+    def start_waiting(self, time):
+        self.last_time_waiting = time
+        
+    def end_waiting(self, time):
+        self.wait_time += time - self.last_time_waiting
+    
     def __str__(self):
         return 'Order ' + str(self.id )+ ' with ' + str(self.ingredients)
 
