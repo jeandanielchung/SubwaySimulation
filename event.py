@@ -1,9 +1,8 @@
 ## Event class to represent an event to be scheduled
 class Event():
-    def __init__(self, ts, data, callback):
-        self.ts = ts
+    def __init__(self, data, callback):
         self.data = data
         self.callback = callback
 
     def __str__(self):
-        return 'Event with ' + str(self.data)
+        return str(self.data['event_type']) + ' event at ' + str(self.data['event_time']) + ': ' + str(self.data['order'])

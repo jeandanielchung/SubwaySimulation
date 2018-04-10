@@ -4,7 +4,7 @@ import copy
 
 class FutureEventList():
     def __init__(self):
-        types.insert(0,'ARRIVAL')
+        types.insert(0,'GENERAL')
         self.EventLists = {type: [] for type in types}
 
 
@@ -18,9 +18,11 @@ class FutureEventList():
         """function updating the queue for an ingredient type to delay events"""
         event_queue = self.EventLists[type]
         i = 0
-        while i < len(event_queue) and new_time >= event_queue[i].ts:
-            event_queue[i].ts = new_time
+        while i < len(event_queue) and new_time >= event_queue[i].data['event_time']:
+            event_queue[i].data['event_time'] = new_time
             i += 1
+        for e in event_queue:
+            print e
 
     def update_order(self, order):
         """function to update the new times of an order in each of the queues that it appears in"""
@@ -32,23 +34,20 @@ class FutureEventList():
         """ pops the next event in the queue """
         min = float('inf')
         typePop = 'NULL'
-        for type in types:
-            print type
-            for event in self.EventLists[type]:
-                print event.data['order'], event.data['type'],  event.ts
+        # for type in types:
+        #     print type
+        #     for event in self.EventLists[type]:
+        #         print event.data['order'], event.data['type'],  event.ts
 
-            print
+        #     print
 
-        if len(self.EventLists['ARRIVAL']) != 0:
-            print 'Event type: ARRIVAL', 'At time: ', self.EventLists['ARRIVAL'][0].ts
-            return self.EventLists['ARRIVAL'].pop(0)
         for type in types:
-            if(len(self.EventLists[type]) != 0 and self.EventLists[type][0].ts < min):
+            if(len(self.EventLists[type]) != 0 and self.EventLists[type][0].data['event_time'] < min):
                 typePop = type
-                min = self.EventLists[type][0].ts
+                min = self.EventLists[type][0].data['event_time']
         order = self.EventLists[typePop][0].data['order']
         self.EventLists[typePop][0].data['event_time'] = min
-        print 'Order ' + str(order.id) + ': Event type: ', typePop, 'At time: ', min
+        # print 'Order ' + str(order.id) + ': Event type: ', typePop, 'At time: ', min
 
 
         return self.EventLists[typePop].pop(0)
@@ -57,11 +56,14 @@ class FutureEventList():
     def schedule(self, event): 
         """ function to schedule event into priority queue (future event list) """
 
-        type = event.data['type']
+        type = 'GENERAL' if event.data['event_type'] not in types else event.data['event_type']
+
         event1 = copy.deepcopy(event)
+        event_time = event.data['event_time']
+
         i = 0
         while i < len(self.EventLists[type]):
-            if self.EventLists[type][i].ts > event1.ts:
+            if self.EventLists[type][i].data['event_time'] > event_time:
                 break
             i += 1
         self.EventLists[type].insert(i, event1)

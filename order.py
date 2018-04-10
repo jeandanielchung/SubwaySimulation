@@ -1,14 +1,16 @@
 import random
 from ingredients import ingredients_dict
+import sys
 
 class Order():
     order_id = 0
 
-    def __init__(self, ts, ingredients=None):
+    def __init__(self, start_time, ingredients=None):
         self.id = Order.order_id
         Order.order_id += 1
         self.ingredients = {}
-        self.ts = ts
+        self.start_time = start_time
+        self.completed_ts = sys.maxint
         if ingredients:
             for ingredient in ingredients:
                 if ingredient in ingredients_dict:
