@@ -21,8 +21,8 @@ class FutureEventList():
         while i < len(event_queue) and new_time >= event_queue[i].data['event_time']:
             event_queue[i].data['event_time'] = new_time
             i += 1
-        for e in event_queue:
-            print e
+        # for e in event_queue:
+            # print e
 
     def update_order(self, order):
         """function to update the new times of an order in each of the queues that it appears in"""

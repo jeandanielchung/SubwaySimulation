@@ -23,7 +23,7 @@ class Engine():
         """function to execute next event in priority queue"""
         while self.future_event_list.len() > 0:
             next = self.future_event_list.pop(0)
-            print next
+            # print next
             self.completed_event_list.append(next)
             self.current_time = next.data['event_time']
             next.callback(next.data)

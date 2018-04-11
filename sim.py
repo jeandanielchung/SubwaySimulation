@@ -11,7 +11,7 @@ import numpy
 
 
 engine = None
-NUM_ORDERS = 10
+NUM_ORDERS = 5
 LAST_ORDER_TIME = 150 # time of last order (in minutes)
 
 SIMULTION_METHOD = 'ZIGZAG'
@@ -23,18 +23,27 @@ service_stations = None
 
 
 def main():
+    global NUM_ORDERS
+    
     zig_zag_results = []
     pipeline_results = []
-    for iteration in range(1000):
-        # initial_orders = get_orders_from_file()
-        initial_orders = init_order_arrival_events(NUM_ORDERS)
-        initial_orders2 = copy.deepcopy(initial_orders)
-        
-        zig_zag_results.append(run_zig_zag(initial_orders))
-        pipeline_results.append(run_pipeline(initial_orders2))
-    print zig_zag_results
-    print '----------ZIGZAG-----------'
-    print pipeline_results
+    
+    for set_of_iterations in range(5, 155, 5):
+        NUM_ORDERS = set_of_iterations
+        zig_zag_results_per_set = []
+        pipeline_results_per_set = []
+        for iteration in range(100):
+            # initial_orders = get_orders_from_file()
+            initial_orders = init_order_arrival_events(NUM_ORDERS)
+            initial_orders2 = copy.deepcopy(initial_orders)
+            
+            zig_zag_results_per_set.append(run_zig_zag(initial_orders))
+            pipeline_results_per_set.append(run_pipeline(initial_orders2))
+        zig_zag_results.append(numpy.mean(zig_zag_results_per_set))
+        pipeline_results.append(numpy.mean(pipeline_results_per_set))
+        print set_of_iterations
+    print ','.join(zig_zag_results)
+    print ','.join(pipeline_results)
 
 def run_zig_zag(initial_orders):
     global engine
@@ -54,17 +63,17 @@ def run_zig_zag(initial_orders):
     total_time = end_time - start_time
     
     
-    orders = len(engine.completed_orders)
-    mean_time = total_time / NUM_ORDERS
-    mean_wait = sum(map(lambda x: x.wait_time, engine.completed_orders))
-    std_dev = numpy.std(map(lambda x: x.wait_time, engine.completed_orders))
-    print '----------PIPELINE----------'
-    print 'Number of orders processed: ' + str(orders)
-    print 'Mean time per sandwich ' + str(mean_time)
-    print "Mean waiting time: " + str(mean_wait)
-    print 'Standard deviation of wait times: ' + str(std_dev)
+    # orders = len(engine.completed_orders)
+    # mean_time = total_time / NUM_ORDERS
+    mean_wait = numpy.mean(map(lambda x: x.wait_time, engine.completed_orders))
+    # std_dev = numpy.std(map(lambda x: x.wait_time, engine.completed_orders))
+    # print '----------PIPELINE----------'
+    # print 'Number of orders processed: ' + str(orders)
+    # print 'Mean time per sandwich ' + str(mean_time)
+    # print "Mean waiting time: " + str(mean_wait)
+    # print 'Standard deviation of wait times: ' + str(std_dev)
     
-    return (orders, mean_time, mean_wait, std_dev)
+    return mean_wait
     
 def run_pipeline(initial_orders):
     global engine
@@ -84,18 +93,17 @@ def run_pipeline(initial_orders):
     total_time = end_time - start_time
 
     
+    # orders = len(engine.completed_orders)
+    # mean_time = total_time / NUM_ORDERS
+    mean_wait = numpy.mean(map(lambda x: x.wait_time, engine.completed_orders))
+    # std_dev = numpy.std(map(lambda x: x.wait_time, engine.completed_orders))
+    # print '----------PIPELINE----------'
+    # print 'Number of orders processed: ' + str(orders)
+    # print 'Mean time per sandwich ' + str(mean_time)
+    # print "Mean waiting time: " + str(mean_wait)
+    # print 'Standard deviation of wait times: ' + str(std_dev)
     
-    orders = len(engine.completed_orders)
-    mean_time = total_time / NUM_ORDERS
-    mean_wait = sum(map(lambda x: x.wait_time, engine.completed_orders))
-    std_dev = numpy.std(map(lambda x: x.wait_time, engine.completed_orders))
-    print '----------------------------'
-    print 'Number of orders processed: ' + str(orders)
-    print 'Mean time per sandwich ' + str(mean_time)
-    print "Mean waiting time: " + str(mean_wait)
-    print 'Standard deviation of wait times: ' + str(std_dev)
-    
-    return (orders, mean_time, mean_wait, std_dev)
+    return mean_wait
     
     
 
