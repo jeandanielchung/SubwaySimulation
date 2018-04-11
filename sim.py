@@ -28,19 +28,21 @@ def main():
     zig_zag_results = []
     pipeline_results = []
     
+    iterations_per_set = 100
+    
     for set_of_iterations in range(5, 155, 5):
         NUM_ORDERS = set_of_iterations
         zig_zag_results_per_set = []
         pipeline_results_per_set = []
-        for iteration in range(100):
+        for iteration in range(iterations_per_set):
             # initial_orders = get_orders_from_file()
             initial_orders = init_order_arrival_events(NUM_ORDERS)
             initial_orders2 = copy.deepcopy(initial_orders)
             
-            zig_zag_results_per_set.append(run_zig_zag(initial_orders))
-            pipeline_results_per_set.append(run_pipeline(initial_orders2))
-        zig_zag_results.append(numpy.mean(zig_zag_results_per_set))
-        pipeline_results.append(numpy.mean(pipeline_results_per_set))
+            zig_zag_results_per_set += run_zig_zag(initial_orders)
+            pipeline_results_per_set += run_pipeline(initial_orders2)
+        zig_zag_results.append((zig_zag_results_per_set / iterations_per_set))
+        pipeline_results.append((pipeline_results_per_set / iterations_per_set))
         print set_of_iterations
     print ','.join(zig_zag_results)
     print ','.join(pipeline_results)
