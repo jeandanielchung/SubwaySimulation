@@ -12,7 +12,7 @@ import numpy
 
 engine = None
 NUM_ORDERS = 10
-LAST_ORDER_TIME = 100 # time of last order (in minutes)
+LAST_ORDER_TIME = 150 # time of last order (in minutes)
 
 SIMULTION_METHOD = 'ZIGZAG'
 
@@ -23,54 +23,81 @@ service_stations = None
 
 
 def main():
+    zig_zag_results = []
+    pipeline_results = []
+    for iteration in range(1000):
+        # initial_orders = get_orders_from_file()
+        initial_orders = init_order_arrival_events(NUM_ORDERS)
+        initial_orders2 = copy.deepcopy(initial_orders)
+        
+        zig_zag_results.append(run_zig_zag(initial_orders))
+        pipeline_results.append(run_pipeline(initial_orders2))
+    print zig_zag_results
+    print '----------ZIGZAG-----------'
+    print pipeline_results
+
+def run_zig_zag(initial_orders):
     global engine
     global SIMULTION_METHOD
     global service_stations
     
-    
-    service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type], time_to_process=time_to_process) for type in types}
-    initial_orders = init_order_arrival_events(NUM_ORDERS)
-    initial_orders2 = copy.deepcopy(initial_orders)
-    # initial_orders = get_orders_from_file()
+    SIMULTION_METHOD = 'ZIGZAG'
+    service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
 
-    # print map(lambda x : str(x), initial_orders)
-    for arrival in initial_orders:
-        print str(arrival.data['order']) + ' at ' + str(arrival.data['order'].start_time)
-        
+    # for arrival in initial_orders:
+        # print str(arrival.data['order']) + ' at ' + str(arrival.data['order'].start_time)
+
+    engine = eng.Engine(initial_orders)
+    start_time = engine.current_time
+    engine.run()
+    end_time = engine.current_time
+    total_time = end_time - start_time
+    
+    
+    orders = len(engine.completed_orders)
+    mean_time = total_time / NUM_ORDERS
+    mean_wait = sum(map(lambda x: x.wait_time, engine.completed_orders))
+    std_dev = numpy.std(map(lambda x: x.wait_time, engine.completed_orders))
+    print '----------PIPELINE----------'
+    print 'Number of orders processed: ' + str(orders)
+    print 'Mean time per sandwich ' + str(mean_time)
+    print "Mean waiting time: " + str(mean_wait)
+    print 'Standard deviation of wait times: ' + str(std_dev)
+    
+    return (orders, mean_time, mean_wait, std_dev)
+    
+def run_pipeline(initial_orders):
+    global engine
+    global SIMULTION_METHOD
+    global service_stations
+    
+    SIMULTION_METHOD = 'PIPELINE'
+    service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
+    
+    # for arrival in initial_orders:
+        # print str(arrival.data['order']) + ' at ' + str(arrival.data['order'].start_time)
     
     engine = eng.Engine(initial_orders)
-    # engine = eng.Engine(get_orders_from_file())
     start_time = engine.current_time
     engine.run()
     end_time = engine.current_time
-    zigzag_time = end_time - start_time
-    
-    print '----------------------------'
-    print 'Number of orders processed: ' + str(len(engine.completed_orders))
-    print 'Mean time per sandwich ' + str(zigzag_time / NUM_ORDERS)
-    print 'Mean waiting time: ' + str(sum(map(lambda x: x.wait_time, engine.completed_orders)))
-    print 'Standard deviation of wait times: ' + str(numpy.std(map(lambda x: x.wait_time, engine.completed_orders)))
-    print engine.completed_orders
-    
-    
-    service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type], time_to_process=time_to_process) for type in types}
-    for arrival in initial_orders2:
-        print str(arrival.data['order']) + ' at ' + str(arrival.data['order'].start_time)
-    
-    SIMULTION_METHOD = 'TRADITIONAL'
-    engine = eng.Engine(initial_orders2)
-    # engine = eng.Engine(get_orders_from_file())
-    start_time = engine.current_time
-    engine.run()
-    end_time = engine.current_time
-    traditional_time = end_time - start_time
+    total_time = end_time - start_time
 
+    
+    
+    orders = len(engine.completed_orders)
+    mean_time = total_time / NUM_ORDERS
+    mean_wait = sum(map(lambda x: x.wait_time, engine.completed_orders))
+    std_dev = numpy.std(map(lambda x: x.wait_time, engine.completed_orders))
     print '----------------------------'
-    print 'Number of orders processed: ' + str(len(engine.completed_orders))
-    print 'Mean time per sandwich ' + str(traditional_time / NUM_ORDERS)
-    print "Mean waiting time: " + str(sum(map(lambda x: x.wait_time, engine.completed_orders)))
-    print 'Standard deviation of wait times: ' + str(numpy.std(map(lambda x: x.wait_time, engine.completed_orders)))
-    print engine.completed_orders
+    print 'Number of orders processed: ' + str(orders)
+    print 'Mean time per sandwich ' + str(mean_time)
+    print "Mean waiting time: " + str(mean_wait)
+    print 'Standard deviation of wait times: ' + str(std_dev)
+    
+    return (orders, mean_time, mean_wait, std_dev)
+    
+    
 
 def get_orders_from_file():
     """function that gets the initial orders from a json file"""
