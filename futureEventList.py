@@ -5,7 +5,9 @@ import copy
 class FutureEventList():
     def __init__(self):
         types.insert(0,'GENERAL')
-        self.EventLists = {type: [] for type in types}
+        self.EventLists = {}
+        for type in types:
+            self.EventLists[type] = []
 
 
     def len(self):
