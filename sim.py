@@ -85,7 +85,10 @@ def run_pipeline(initial_orders):
     global service_stations
     
     SIMULTION_METHOD = 'PIPELINE'
-    service_stations = {type : Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type]) for type in types}
+    service_stations = {}
+    for type in types:
+    
+    service_stations[type] = Station(type, [ingredient for ingredient,v in ingredients_dict.iteritems() if ingredients_dict[ingredient]['type'] == type])
     
     # for arrival in initial_orders:
         # print str(arrival.data['order']) + ' at ' + str(arrival.data['order'].start_time)
