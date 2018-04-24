@@ -28,9 +28,9 @@ def main():
     zig_zag_results = []
     pipeline_results = []
     
-    iterations_per_set = 100
+    iterations_per_set = 10
     
-    for set_of_iterations in range(5, 155, 5):
+    for set_of_iterations in range(25, 155, 25):
         NUM_ORDERS = set_of_iterations
         zig_zag_results_per_set = []
         pipeline_results_per_set = []
@@ -39,13 +39,17 @@ def main():
             initial_orders = init_order_arrival_events(NUM_ORDERS)
             initial_orders2 = copy.deepcopy(initial_orders)
             
-            zig_zag_results_per_set += run_zig_zag(initial_orders)
-            pipeline_results_per_set += run_pipeline(initial_orders2)
-        zig_zag_results.append((zig_zag_results_per_set / iterations_per_set))
-        pipeline_results.append((pipeline_results_per_set / iterations_per_set))
-        print set_of_iterations
-    print ','.join(zig_zag_results)
-    print ','.join(pipeline_results)
+            zig_zag_results_per_set.append(run_zig_zag(initial_orders))
+            pipeline_results_per_set.append(run_pipeline(initial_orders2))
+        zig_zag_results.append(numpy.mean(zig_zag_results_per_set))
+        pipeline_results.append(numpy.mean(pipeline_results_per_set))
+    with open('results.csv', 'w') as outfile:
+        outfile.write('Number of orders,' + ','.join(map(lambda x : str(x), range(25, 155, 25))) + '\n')
+        outfile.write('Zig Zag,' + ','.join(map(lambda x : str(x), zig_zag_results)) + '\n')
+        outfile.write('Traditional,' + ','.join(map(lambda x : str(x), pipeline_results)) + '\n')
+    print 'Number of orders,' + ','.join(map(lambda x : str(x), range(25, 155, 25)))
+    print 'Zig Zag,' + ','.join(map(lambda x : str(x), zig_zag_results))
+    print 'Traditional,' + ','.join(map(lambda x : str(x), pipeline_results))
 
 def run_zig_zag(initial_orders):
     global engine
